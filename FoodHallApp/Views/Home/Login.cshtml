@@ -1,0 +1,27 @@
+﻿@model FoodHallApp.Models.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+
+<div class="bg">
+    <div id="login-card" class="card m-auto">
+        <h1 class="text-danger">Login</h1>
+        <p class="text-danger">@ViewData["msg"]</p>
+        <form asp-action="LoginAct" method="get" class="mt-4">
+            <div class="form-group">
+                <label asp-for="UserName">Username</label>
+                <input asp-for="UserName" class="form-control" placeholder="Enter username">
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" class="form-control" placeholder="Password">
+            </div>
+            <div class="login-btn"><input type="submit" class="btn btn-danger" value="Login"></div>
+        </form>
+        <div class="login-text"><p><small>Don't have an account? </small><a asp-controller="Home" asp-action="Signup" class="text-danger">Signup</a></p></div>
+        <a asp-controller="Home" asp-action="Index" class="back text-danger"><span><i class="fa fa-long-arrow-left mr-1"></i></span>Go back home</a>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model ClientApp.Models.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Signup";
+    Layout = "_Layout";
+}
+
+<div class="bg">
+    <div id="signup-card" class="card m-auto">
+        <h1 class="text-danger">Sign Up</h1>
+        <p class="text-danger">@ViewData["message"]</p>
+        <form asp-action="Signup" method="post" class="mt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName">Username</label>
+                <input asp-for="UserName" class="form-control" placeholder="Enter username">
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" class="form-control" placeholder="Enter Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Enter password again">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="signup-btn"><button type="submit" class="btn btn-danger">Submit</button></div>
+        </form>
+        <div class="login-text"><p><small>Already have an account? </small><a asp-controller="Home" asp-action="Login" class="text-danger">Login</a></p></div>
+        <a asp-controller="Home" asp-action="Index" class="back text-danger"><span><i class="fa fa-long-arrow-left mr-1"></i></span>Go back home</a>
+    </div>
+</div>
+

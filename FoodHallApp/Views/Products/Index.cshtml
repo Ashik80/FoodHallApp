@@ -1,0 +1,206 @@
+﻿@model FoodHallApp.Models.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="text-center mt-5">
+    <h1>Products</h1>
+</div>
+
+<p class="text-danger">@ViewData["problem"]</p>
+
+<div class="catarea container mt-5">
+    <div class="row">
+        <form method="get">
+            <div class="form-group row">
+                <select asp-for="ProductCategory" asp-items="ViewBag.category" class="form-control mr-2" style="width: 200px;">
+                    <option>All category</option>
+                </select>
+                <input type="submit" value="Filter" class="btn btn-primary" />
+            </div>
+        </form>
+        <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-primary ml-auto mr-3"><span><i class="fa fa-plus mr-2"></i></span>Product</button>
+    </div>
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add new Product:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="productadd" enctype="multipart/form-data" asp-action="Create">
+                            <div class="form-group row">
+                                <label asp-for="ProductName" class="col-sm-4">Product Name:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="ProductName" class="form-control">
+                                </div>
+                            </div>
+                            <span class="text-danger" asp-validation-for="ProductName"></span>
+                            <div class="form-group row">
+                                <label asp-for="ProductCategory" class="col-sm-4">Category:</label>
+                                <div class="col-sm-8">
+                                    <select asp-for="ProductCategory" asp-items="@ViewBag.category" class="form-control">
+                                        <option>-- Select --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Price" class="col-sm-4">Price:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="Price" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Photo" class="col-sm-4">Photo:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="Photo" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" form="productadd" class="btn btn-success"><span><i class="fa fa-floppy-o mr-1"></i></span>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                string modal = "#editModal" + item.ProductID.ToString();
+                string del = "#delModal" + item.ProductID.ToString();
+                <tr>
+                    <th scope="row" width=10%><img src="~/img/@item.Photo" height="40" width="40"></th>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td width="25%"><button type="button" data-toggle="modal" data-target="@modal" class="btn btn-success"><span><i class="fa fa-pencil mr-1"></i></span>Edit</button> || <button class="btn btn-danger" type="button" data-toggle="modal" data-target="@del"><span><i class="fa fa-trash mr-1"></i></span>Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var product in Model.Products)
+{
+    string modal = "editModal" + product.ProductID.ToString();
+    <div class="modal fade" id="@modal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Product:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="productedit + @product.ProductID" enctype="multipart/form-data" asp-action="Edit">
+                            <div class="form-group row">
+                                <label asp-for="ProductName" class="col-sm-4">Product Name:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="ProductName" class="form-control" value="@product.ProductName">
+                                </div>
+                                <input type="hidden" name="pID" value="@product.ProductID" />
+                            </div>
+                            <span class="text-danger" asp-validation-for="ProductName"></span>
+                            <div class="form-group row">
+                                <label asp-for="ProductCategory" class="col-sm-4">Category:</label>
+                                <div class="col-sm-8">
+                                    <select asp-for="ProductCategory" asp-items="@ViewBag.category" class="form-control" value="@product.CategoryID">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Price" class="col-sm-4">Price:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="Price" class="form-control" value="@product.Price">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Photo" class="col-sm-4">Photo:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="Photo" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" form="productedit + @product.ProductID" class="btn btn-success"><span><i class="fa fa-pencil-square-o mr-1"></i></span>Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var product in Model.Products)
+{
+    string modal = "delModal" + product.ProductID.ToString();
+    <div class="modal fade" id="@modal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Product:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="productdel + @product.ProductID" asp-action="Delete" method="post">
+                            <div class="form-group row">
+                                <label asp-for="ProductName" class="col-sm-4">Product Name:</label>
+                                <div class="col-sm-8">
+                                    <p>@product.ProductName</p>
+                                </div>
+                                <input type="hidden" name="pID" value="@product.ProductID" />
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="ProductCategory" class="col-sm-4">Category:</label>
+                                <div class="col-sm-8">
+                                    <p>@product.CategoryID</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Price" class="col-sm-4">Price:</label>
+                                <div class="col-sm-8">
+                                    <p>@product.Price</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Photo" class="col-sm-4">Photo:</label>
+                                <div class="col-sm-8">
+                                    <img src="~/img/@product.Photo" height="150" width="150"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" form="productdel + @product.ProductID" class="btn btn-success"><span><i class="fa fa-pencil-square-o mr-1"></i></span>Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

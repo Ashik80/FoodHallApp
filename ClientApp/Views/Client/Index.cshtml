@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+
+<div class="banner bg">
+    <div id="intro" class="text-white text-center position-relative">
+        <h1 style="font-size: 75px">Order Food online</h1>
+        <h3 class="mt-4">Grab your food on the go!</h3>
+    </div>
+    <div id="btn-1"><a asp-controller="Home" asp-action="Signup" class="btn btn-danger bt-1">Sign Up >></a></div>
+</div>
+<div id="start" class="container mt-5 mb-5">
+    <p style="font-size: 25px"><strong>Order food from the best restaurant Bangladesh</strong></p><br>
+    <p class="position-relative" style="top: -20px">Are you hungry? Did you have a long and stressful day? Interested in getting a cheesy pizza delivered to your home or office? Help satisfy your hunger through our online food delivery service.</p>
+    <div class="row mt-5">
+        <div id="card-appetizers" class="card col-md-4">
+            <img src="~/img/images1.jpeg" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">Appetizers</h5>
+                <p class="card-text">Start off with some delicious appetizers</p>
+                <a href="#" class="btn btn-success">See more</a>
+            </div>
+        </div>
+        <div id="card-appetizers" class="card col-md-4">
+            <img src="~/img/images2.jpeg" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">Appetizers</h5>
+                <p class="card-text">Dive into the tummy-filling main course</p>
+                <a href="#" class="btn btn-success">See more</a>
+            </div>
+        </div>
+        <div id="card-appetizers" class="card col-md-4">
+            <img src="~/img/images3.jpeg" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">Desserts</h5>
+                <p class="card-text">End meals with mouth-watering desserts</p>
+                <a href="#" class="btn btn-success">See more</a>
+            </div>
+        </div>
+    </div>
+</div>

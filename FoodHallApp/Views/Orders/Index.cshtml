@@ -1,0 +1,108 @@
+﻿@model FoodHallApp.Models.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="text-center mt-5">
+    <h1>Order</h1>
+</div>
+
+<div class="container mt-5 orderheight">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                var details = "#detailsModal" + @order.OrderID.ToString();
+                var process = "#processedModal" + @order.OrderID.ToString();
+                <tr>
+                    <td>@order.OrderID</td>
+                    <td>@order.Customer.UserName</td>
+                    <td>@order.TotalPrice</td>
+                    <td width="20%">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="@details">Details</button> ||
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="@process">Processed</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var order in Model.Orders)
+{
+    var details = "detailsModal" + @order.OrderID.ToString();
+    var process = "processedModal" + @order.OrderID.ToString();
+    <div class="modal fade" id="@details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Products</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var prod in order.OrderedProducts)
+                            {
+                                <tr>
+                                    <td>@prod.Product.ProductName</td>
+                                    <td>@prod.Quantity</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="@process" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Processed?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <p class="col-6"><b>Order ID:</b></p>
+                            <p class="col-6">@order.OrderID</p>
+                        </div>
+                        <div class="row">
+                            <p class="col-6"><b>Customer Name:</b></p>
+                            <p class="col-6">@order.Customer.UserName</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <a asp-action="Processed" asp-route-id="@order.OrderID" class="btn btn-success">Processed</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

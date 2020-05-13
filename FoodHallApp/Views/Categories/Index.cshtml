@@ -1,0 +1,133 @@
+﻿@model FoodHallApp.Models.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Category";
+}
+
+<div class="text-center mt-5">
+    <h1>Categories</h1>
+</div>
+
+<div class="catarea container mt-5">
+    <div class="row">
+        <button class="btn btn-primary ml-auto mr-3" type="button" data-toggle="modal" data-target="#addModal"><span><i class="fa fa-plus mr-2"></i></span>Category</button>
+    </div>
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add new Category:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="categoryform" asp-action="Create">
+                            <div class="form-group row">
+                                <label asp-for="CategoryName" class="col-sm-4">Category Name:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="CategoryName" class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" form="categoryform" class="btn btn-success"><span><i class="fa fa-floppy-o mr-1"></i></span>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Category Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Categories)
+            {
+                string modal = "#editModal" + item.CategoryID.ToString();
+                string del = "#delModal" + item.CategoryID.ToString();
+                <tr>
+                    <th scope="row">@item.CategoryName</th>
+                    <td width=30%><button class="btn btn-success" type="button" data-toggle="modal" data-target="@modal"><span><i class="fa fa-pencil mr-1"></i></span>Edit</button> || <button class="btn btn-danger" type="button" data-toggle="modal" data-target="@del"><span><i class="fa fa-trash mr-1"></i></span>Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var cat in Model.Categories)
+{
+    string modal = "editModal" + cat.CategoryID.ToString();
+    <div class="modal fade" id="@modal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Edit Category:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="updateCategory + @cat.CategoryID" asp-action="Edit">
+                            <div class="form-group row">
+                                <label asp-for="CategoryName" class="col-sm-4">Category Name:</label>
+                                <div class="col-sm-8">
+                                    <input asp-for="CategoryName" value="@cat.CategoryName" class="form-control">
+                                </div>
+                                <input type="hidden" name="cID" value="@cat.CategoryID" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" form="updateCategory + @cat.CategoryID" class="btn btn-success"><span><i class="fa fa-pencil-square-o mr-1"></i></span>Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var cat in Model.Categories)
+{
+    string del = "delModal" + cat.CategoryID.ToString();
+    <div class="modal fade" id="@del" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Edit Category:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="thisform + @cat.CategoryID" asp-action="DeleteConfirmed" method="post">
+                            <div class="form-group row">
+                                <label asp-for="CategoryName" class="col-sm-4">Category Name:</label>
+                                <div class="col-sm-8">
+                                    <p>@cat.CategoryName</p>
+                                </div>
+                                <input type="hidden" name="cID" value="@cat.CategoryID" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" form="thisform + @cat.CategoryID" class="btn btn-success"><span><i class="fa fa-pencil-square-o mr-1"></i></span>Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

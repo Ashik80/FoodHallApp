@@ -7,9 +7,9 @@
     var rowamar = "rowamar" + item.ID.ToString();
     
     <tr id="@rowamar">
-        <td width="40%">@item.Product.ProductName</td>
-        <td width="25%"><button type="button" onclick="komau('@item.ID','@quantity','@price','@item.Product.Price','@rowamar')" class="btn btn-danger quantitybtn float-left mr-3">-</button><span id="@quantity">@item.Quantity</span><button type="button" id="barau" onclick="barau('@item.ID','@quantity','@price','@item.Product.Price')" class="btn btn-danger quantitybtn float-right">+</button></td>
-        <td id="@price">@item.Price</td>
+        <td class="prodname">@item.Product.ProductName</td>
+        <td class="prodquan"><button type="button" onclick="komau('@item.ID','@quantity','@price','@item.Product.Price','@rowamar')" class="btn btn-danger quantitybtn float-left mr-3">-</button><span id="@quantity">@item.Quantity</span><button type="button" id="barau" onclick="barau('@item.ID','@quantity','@price','@item.Product.Price')" class="btn btn-danger quantitybtn float-right">+</button></td>
+        <td class="prodprice" id="@price">@item.Price</td>
     </tr>
 }
 <tr>

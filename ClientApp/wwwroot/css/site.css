@@ -43,6 +43,27 @@
     overflow: scroll;
 }
 
+.prodname {
+    width: 40%;
+}
+
+.prodquan {
+    width: 25%;
+}
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .prodname {
+        width: 35%;
+    }
+    .prodquan {
+        width: 30%;
+    }
+    .prodquan {
+        width: 35%;
+    }
+}
+
 .cart {
     position: fixed;
     bottom: 40px;
